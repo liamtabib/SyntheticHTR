@@ -1,0 +1,11 @@
+datasets/IAM/*
+datasets/IAM_cleaned/*
+synthetic_datasets
+model/WordStylist_model/*
+model/OurModel_model/*
+index2letter.json
+letter2index.json
+slurm*
+writers_dict_train.json
+job_scripts/
+__pycache__
