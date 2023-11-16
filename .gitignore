@@ -1,5 +1,7 @@
 datasets/IAM/*
 datasets/IAM_cleaned/*
+datasets/washington_cleaned/
+datasets/washingtondb-v1.0/
 synthetic_datasets
 model/WordStylist_model/*
 model/OurModel_model/*
@@ -9,3 +11,4 @@ slurm*
 writers_dict_train.json
 job_scripts/
 __pycache__
+__MACOSX
