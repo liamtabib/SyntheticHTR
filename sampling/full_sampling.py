@@ -3,6 +3,8 @@ import torch.nn as nn
 import argparse
 import copy
 from torch import optim
+import sys
+sys.path.append("model/")
 from train import setup_logging, Diffusion, EMA 
 from unet import UNetModel
 from diffusers import AutoencoderKL
@@ -57,26 +59,7 @@ def save_single_images(images, path, args, **kwargs):
     im.save(path)
     return im
 
-def main():
-    '''Main function'''
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--device', type=str, default='cuda:0') 
-    parser.add_argument('--img_size', type=int, default=(64, 256)) 
-    parser.add_argument('--save_path', type=str, default='/path/to/save/generated/images')
-    parser.add_argument('--channels', type=int, default=4)
-    parser.add_argument('--emb_dim', type=int, default=320)
-    parser.add_argument('--num_heads', type=int, default=4)
-    parser.add_argument('--num_res_blocks', type=int, default=1)
-    parser.add_argument('--latent', type=bool, default=True)
-    parser.add_argument('--single_image', type=bool, default=True)
-    parser.add_argument('--interpolation', type=bool, default=False)
-    parser.add_argument('--mix_rate', type=int, default=1)
-    parser.add_argument('--gt_train', type=str, default='./gt/gan.iam.tr_va.gt.filter27')
-    parser.add_argument('--stable_dif_path', type=str, default='stabilityai/stable-diffusion-2-1')
-    parser.add_argument('--models_path', type=str, default='/path/to/trained/models')
-    
-    args = parser.parse_args()
-    
+def main(args):    
     setup_logging(args)
     
     if args.single_image == True:
@@ -87,24 +70,22 @@ def main():
     
     diffusion = Diffusion(img_size=args.img_size, args=args)
     
-    
-    
     num_classes = 339 
     vocab_size = 53 
     if args.latent == True:
         unet = UNetModel(image_size = args.img_size, in_channels=4, model_channels=args.emb_dim, out_channels=4, num_res_blocks=1, attention_resolutions=(1, 1), channel_mult=(1, 1), num_heads=args.num_heads, num_classes=num_classes, context_dim=args.emb_dim, vocab_size=vocab_size, args=args).to(args.device)
     else:
         unet = UNetModel(image_size = args.img_size, in_channels=3, model_channels=128, out_channels=3, num_res_blocks=1, attention_resolutions=(1, 2), num_heads=1, num_classes=num_classes, context_dim=128, vocab_size=vocab_size).to(args.device)
-    #unet = nn.DataParallel(unet, device_ids = [7,5]) #,5,6,7])
+    #unet = nn.DataParallel(unet) #,5,6,7])
     optimizer = optim.AdamW(unet.parameters(), lr=0.0001)
-    unet.load_state_dict(torch.load(f'{args.models_path}/models/ckpt.pt', map_location='cuda:0'))
-    optimizer.load_state_dict(torch.load(f'{args.models_path}/models/optim.pt', map_location='cuda:0'))
+    unet.load_state_dict(torch.load(f'{args.models_path}/models/ckpt.pt'))
+    optimizer.load_state_dict(torch.load(f'{args.models_path}/models/optim.pt'))
     
     unet.eval()
     
     ema = EMA(0.995)
     ema_model = copy.deepcopy(unet).eval().requires_grad_(False)
-    ema_model.load_state_dict(torch.load(f'{args.models_path}/models/ema_ckpt.pt', map_location='cuda:0'))
+    ema_model.load_state_dict(torch.load(f'{args.models_path}/models/ema_ckpt.pt'))
     ema_model.eval()
     
     if args.latent==True:
@@ -117,7 +98,7 @@ def main():
         vae = None
 
     
-    with open(f'{args.gt_train}', 'r') as f:
+    with open(f'{args.gt}', 'r') as f:
         train_data = f.readlines()
         train_data = [i.strip().split(' ') for i in train_data]
         style_word_dict = {}
@@ -132,13 +113,14 @@ def main():
             
         print('num of writers', len(style_word_dict))
 
+    i=0
     for idx in style_word_dict:
         mix_rate = random.uniform(0, 1)
         st = style_word_dict[idx]['s_id']
         print('st', st)
         image_name = style_word_dict[idx]['image']
         print('image_name', image_name)
-        with open("./writers_dict_train.json", "r") as f:
+        with open(args.writer_dict, "r") as f:
             wr_dict = json.load(f)
         new_dict = {value:key for key, value in wr_dict.items()}
     
@@ -154,10 +136,30 @@ def main():
             sampled_ema = save_images(ema_sampled_images, os.path.join(args.save_path, 'images', f"{x_text}.jpg"), args)
         else:
             print('final sampling')
+            print(i)
+            i+=1
             ema_sampled_images = diffusion.sampling(ema_model, vae, n=len(labels), x_text=x_text, labels=labels, args=args, mix_rate=mix_rate)
             #image_name = f'{st}_{x_text}'
             sampled_ema = save_single_images(ema_sampled_images, os.path.join(args.save_path, 'images', f'{image_name}.png'), args)
             
     
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--device', type=str, default='cuda') 
+    parser.add_argument('--img_size', type=int, default=(64, 256)) 
+    parser.add_argument('--save_path', type=str, default='/path/to/save/generated/images')
+    parser.add_argument('--channels', type=int, default=4)
+    parser.add_argument('--emb_dim', type=int, default=320)
+    parser.add_argument('--num_heads', type=int, default=4)
+    parser.add_argument('--num_res_blocks', type=int, default=1)
+    parser.add_argument('--latent', type=bool, default=True)
+    parser.add_argument('--single_image', type=bool, default=True)
+    parser.add_argument('--interpolation', type=bool, default=False)
+    parser.add_argument('--mix_rate', type=int, default=1)
+    parser.add_argument('--gt', type=str, default='./gt/gan.iam.tr_va.gt.filter27')
+    parser.add_argument('--stable_dif_path', type=str, default='stabilityai/stable-diffusion-2-1')
+    parser.add_argument('--models_path', type=str, default='/path/to/trained/models')
+    parser.add_argument('--writer_dict', type=str, default='/path/to/writers_dict')
+    
+    args = parser.parse_args()
+    main(args)
