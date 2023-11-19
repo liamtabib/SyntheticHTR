@@ -11,3 +11,4 @@ writers_dict_train.json
 job_scripts/
 __pycache__
 __MACOSX
+datasets/IAM_gt/batch*

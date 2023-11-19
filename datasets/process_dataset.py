@@ -1,3 +1,8 @@
+"""
+This file flattens the dataset directory and resizes the images to fit into the model in this repository. 
+This script has been tested with the IAM and george washington datasets.
+"""
+
 import PIL
 from PIL import Image, ImageOps
 import os
@@ -23,8 +28,8 @@ def resize_pad(image):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset_path', type=str, default='/path/to/dataset')
-    parser.add_argument('--save_dir', type=str, default='/path/to/save_dir')
+    parser.add_argument('--dataset_path', type=str, default='/path/to/dataset', help='Path to the dataset directory')
+    parser.add_argument('--save_dir', type=str, default='/path/to/save_dir', help='Path to directory where processed dataset is saved')
         
     args = parser.parse_args()
 
