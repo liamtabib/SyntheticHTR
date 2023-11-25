@@ -89,7 +89,7 @@ def resize_pad_cv2(image, target_width=256, target_height=64):
 
 def create_output_paths(args):
     """Create output directories if do not exist."""
-    Path(args.path_to_gt).mkdir(parents=True, exist_ok=True)
+    Path(f"{args.out}_gt/").mkdir(parents=True, exist_ok=True)
     Path(args.path_out).mkdir(parents=True, exist_ok=True)
 
 
@@ -143,7 +143,7 @@ def write_gts(args, gts):
             f.write(f"{imagepath}\t{label}\n")
 
     if args.verbose >= 1:
-        print(f"{args.path_to_gt[split]} contains {len(gts[split].items())} sub-images.")
+        print(f"{args.path_to_gt} contains {len(gts.items())} sub-images.")
 
 
 def get_image_annotations(args):
