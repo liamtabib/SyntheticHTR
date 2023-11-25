@@ -298,8 +298,8 @@ def main():
     parser.add_argument('--num_workers', type=int, default=4) 
     parser.add_argument('--img_size', type=int, default=(64, 256))  
     parser.add_argument('--dataset', type=str, default='iam', help='iam or other dataset') 
-    parser.add_argument('--iam_path', type=str, default='datasets/imgur5k_0_None/test/', help='path to iam dataset (images 64x256)')
-    parser.add_argument('--gt_train', type=str, default='datasets/imgur5k_0_None/gt.txt')
+    parser.add_argument('--iam_path', type=str, default='datasets/imgur5k_cleaned', help='path to imgur5k dataset (images 64x256)')
+    parser.add_argument('--gt_train', type=str, default='datasets/imgur5k_gt/gt.txt')
     #UNET parameters
     parser.add_argument('--channels', type=int, default=4, help='if latent is True channels should be 4, else 3')  
     parser.add_argument('--emb_dim', type=int, default=320)
