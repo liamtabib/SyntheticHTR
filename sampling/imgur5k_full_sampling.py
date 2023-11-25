@@ -100,7 +100,7 @@ def main(args):
     
     with open(f'{args.gt}', 'r') as f:
         train_data = f.readlines()
-        train_data = [i.strip().split(' ') for i in train_data]
+        train_data = [i.strip().split('\t') for i in train_data]
         style_word_dict = {}
         wr_index = 0
         idx = 0
@@ -133,21 +133,21 @@ def main(args):
         labels = torch.tensor(s).long().to(args.device)
         if not args.single_image:
             ema_sampled_images = diffusion.sample(ema_model, vae, n=len(labels), x_text=x_text, labels=labels, args=args)
-            sampled_ema = save_images(ema_sampled_images, os.path.join(args.save_path, 'images', f"{x_text}.jpg"), args)
+            sampled_ema = save_images(ema_sampled_images, os.path.join(args.save_path, 'images', f"{x_text}"), args)
         else:
             print('final sampling')
             print(i)
             i+=1
             ema_sampled_images = diffusion.sampling(ema_model, vae, n=len(labels), x_text=x_text, labels=labels, args=args, mix_rate=mix_rate)
             #image_name = f'{st}_{x_text}'
-            sampled_ema = save_single_images(ema_sampled_images, os.path.join(args.save_path, 'images', f'{image_name}.jpg'), args)
+            sampled_ema = save_single_images(ema_sampled_images, os.path.join(args.save_path, 'images', f'{image_name}'), args)
             
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--device', type=str, default='cuda') 
     parser.add_argument('--img_size', type=int, default=(64, 256)) 
-    parser.add_argument('--save_path', type=str, default='./synthetic_datasets/imgur5k_full')
+    parser.add_argument('--save_path', type=str, default='./synthetic_datasets/imgur5k_full/')
     parser.add_argument('--channels', type=int, default=4)
     parser.add_argument('--emb_dim', type=int, default=320)
     parser.add_argument('--num_heads', type=int, default=4)
