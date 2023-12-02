@@ -1,8 +1,4 @@
-# Scripts for sampling from the diffusion model
-
-This folder contains scripts that sample from the model
-
-* Download the pretrained model from . and place it into /model directory.
+## Sampling from the trained models
  
 * Run python3 full_samplings.py --help to see available command line arguments.
 
