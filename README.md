@@ -24,16 +24,14 @@ python3 -m pip install -r SyntheticHTR/requirements.txt
 Download our pre-trained models from [here](https://drive.google.com/drive/folders/1LTJUl3XNl-DlULXw1yDl9U5E7NnsOYAk?usp=sharing). There are 3 models in total, corresponding to the dataset that they have been trained on.
 
 
-## Our generated datasets
+## Our synthesized datasets
 
-Download our fully regenerated IAM dataset from [here](https://zenodo.org/records/10250221?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImFlYzQ4ODAyLWQwMjAtNDA0My05OTNlLTJhODY3MjBlNWY2NCIsImRhdGEiOnt9LCJyYW5kb20iOiJlZTYzMzc3ZDY0YWJhZTg3MmI1MTU0NmYzZmE0MWM4NCJ9.YrVBEimPsagjgfaIFWB5O73o0YwYY3SKMbiXxXChvRshCDc1us3beXWFragqr0m-FFvE-fE3YSHGqTlDTAOohQ).
+As part of our research, we have fully synthesized four datasets, and further refined these by keeping only the highest quality synthetic images. 
 
-Download our fully regenerated GW dataset from [here](https://zenodo.org/records/10250452?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImI5MmU2MzFiLWMwOGItNDY3NC1hNDQ2LWU4OGZkNjFhZjc4NyIsImRhdGEiOnt9LCJyYW5kb20iOiJhMmU3YTI0M2YxYWNhYjU3MTAzMDkyM2IzNWI3YjU1ZSJ9.Rbko8i4sFsTrLl0S5z9wuEbPWlB-ZdbDawt9OcWf0bnCnpn2-sAziVJn_x1D8Zd2kfX-if0bJ1-i2xGY8hMmZQ).
-
-Download our regenerated IMGUR5k dataset from [here](https://zenodo.org/records/10250459?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjE3MmFmY2RhLTk2NTYtNGI4My05ZDEyLTYwNGM1N2VkMmUxNCIsImRhdGEiOnt9LCJyYW5kb20iOiIzYzE1MWNhYjA4OWQ5ZWRlOTQ1YTQ5MDUwMjIwZDU5OSJ9.idRDNo2JlrzGUxaOhhSqcTz3zONzN_hUS737ZubbeHj0LbjcxFCO-N5OfiJYSoaA4OqqPXMSezPbimy4CiTWIg).
+You can download our best synthesized datasets: IAM dataset from [here](https://zenodo.org/records/10392946?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImI4NWY3Njc1LWYxYWItNDQzMi1hNjM3LTFjZDE2NmI0YjA2NSIsImRhdGEiOnt9LCJyYW5kb20iOiI2M2Q3MzFhZjBhNGY0ZGE5ZWViZjRmOWRlNTM5NzZjNyJ9.V5z0a9qU-_BeG7wFOKVl5riMp04aYb1KPvr_6ntS9OdhTcFlQN3MD5KZNffD_G-03Vm8IVREPFhy1rOyAGW4ug), George Washington dataset from [here](https://zenodo.org/records/10392982?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjQ1NTI0MjA3LWZjNDAtNDYxMS1hYjk2LTEyZGEyY2RjNjRlOCIsImRhdGEiOnt9LCJyYW5kb20iOiJjZjljNWEzMmZkYmZjMGNmZDZkYTdhZTI3YWVmZmRjNiJ9.XcbZXLbRWM8OdGpr0WZfui_C9Mykg_0ltOkcXvxBHd4B4DDP1dtkck7bUNrccA77DoiReL0NgZOZ-rSb7XBqHg), IMGUR5k dataset from [here](https://zenodo.org/records/10392963?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjVmNDhmYzRlLWE3OGEtNDJiMS1iY2QxLWExMDI2NmIyOGU1YyIsImRhdGEiOnt9LCJyYW5kb20iOiIwOTY3YzBiYzI0OTRkOTk4NGI5OGE3MjkxNzcxNDYyMiJ9.wiFBP18s05t7m7uaX7hwKiBdENXRbh-h3svaBtiSxUB0Sw-IB4vNL23VbEUkGXjB8AWTMODipz9Vk8bBCx23aQ) and our Out-Of-Vocabulary IAM dataset from [here](https://zenodo.org/records/10393019?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjViZGJjYmJkLTVlOWMtNGM0MS05MjkwLTQxNjNiODE2NDgzMCIsImRhdGEiOnt9LCJyYW5kb20iOiI0MmM1ZGIxYzg5OTlkM2E4ZTBjZjY2MDVlNjM5YzZhYSJ9.08cC8e_lmkWvCsQsEY_QtjlnpriOCKIp6qQIvDnrjP6ncR8kwx-p3XrUxUhiNXJ99HskbR-x8mHoQoGRVKUTvg)
 
 ## Use the model for sampling or fine-tuning on datasets
-Download a dataset of your choice with the word-level images, then run `python3 datasets/process_dataset.py` to preprocess the data before `python3 model/train.py` to train the model on your dataset. Lastly, you may want to regenerate the dataset using `python3 sampling/full_sampling.py`.
+Download a dataset of your choice with the word-level images, then run `python3 datasets/process_dataset.py` to preprocess the data before `python3 model/train.py` to train the model on your dataset. Lastly, you may want to fully synthesize the dataset using `python3 sampling/full_sampling.py`.
 
 ## References
 
