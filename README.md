@@ -1,5 +1,7 @@
 # SyntheticHTR
 
+[You can find the official report here](SyntheticHTR.pdf)
+
 Synthetic image generation for HTR using PyTorch based on [WordStylist: Styled Verbatim Handwritten Text Generation with Latent Diffusion Models](https://github.com/koninik/WordStylist) [1]
 
 ## Dependencies
