@@ -1,4 +1,4 @@
-# SyntheticHTR
+# DiffusionHTR
 
 Generate realistic handwritten text using diffusion models. This project creates synthetic handwriting that captures individual writing styles and can be used for data augmentation in handwritten text recognition systems.
 
@@ -17,8 +17,8 @@ Want to create synthetic handwriting datasets? This tool lets you:
 First, set up your environment:
 
 ```bash
-python3 -m venv SyntheticHTR-env
-source SyntheticHTR-env/bin/activate
+python3 -m venv DiffusionHTR-env
+source DiffusionHTR-env/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
