@@ -60,7 +60,7 @@ That's it! You'll have a trained model that can generate handwriting in the styl
 
 The system uses a diffusion model architecture specifically designed for handwritten text generation. It learns to capture both the content (what letters to write) and the style (how to write them) from training examples. During inference, you can control both aspects to generate exactly the kind of handwriting you need.
 
-Check out the [official paper](SyntheticHTR.pdf) for all the technical details.
+Check out the [official paper](DiffusionHTR.pdf) for all the technical details.
 
 ## References
 
