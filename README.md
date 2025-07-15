@@ -1,39 +1,66 @@
 # SyntheticHTR
 
-[You can find the official report here](SyntheticHTR.pdf)
+Generate realistic handwritten text using diffusion models. This project creates synthetic handwriting that captures individual writing styles and can be used for data augmentation in handwritten text recognition systems.
 
-Synthetic image generation for HTR using PyTorch based on [WordStylist: Styled Verbatim Handwritten Text Generation with Latent Diffusion Models](https://github.com/koninik/WordStylist) [1]
+Built on top of the [WordStylist](https://github.com/koninik/WordStylist) architecture, this implementation uses latent diffusion models to generate high-quality handwritten text images with controllable writer characteristics.
 
-## Dependencies
+## What you can do with this
 
-Create a new virtual environment and install all the necessary Python packages:
+Want to create synthetic handwriting datasets? This tool lets you:
+- Train diffusion models on existing handwriting datasets
+- Generate new handwritten text with specific writer styles
+- Create large-scale synthetic datasets for training HTR systems
+- Experiment with different writing styles and text content
 
-```
+## Getting started
+
+First, set up your environment:
+
+```bash
 python3 -m venv SyntheticHTR-env
 source SyntheticHTR-env/bin/activate
 pip install --upgrade pip
-python3 -m pip install -r SyntheticHTR/requirements.txt
+pip install -r requirements.txt
 ```
 
-## Content
+## Quick start
 
-* [Download our pre-trained models.](#our-pre-trained-models)
-* [Download the synthetic datasets.](#synthetic-datasets)
-* [Use the pre-trained models for sampling data or fine-tuning on additional datasets.](#use-the-models-for-fine-tuning-or-sampling)
+If you want to jump right in, we've prepared everything you need:
 
-## Our pre-trained models
+**Pre-trained models**: We have models trained on IAM, George Washington, and IMGUR5k datasets. You can download them [here](https://drive.google.com/drive/folders/1LTJUl3XNl-DlULXw1yDl9U5E7NnsOYAk?usp=sharing).
 
-Download our pre-trained models from [here](https://drive.google.com/drive/folders/1LTJUl3XNl-DlULXw1yDl9U5E7NnsOYAk?usp=sharing). There are 3 models in total, corresponding to the dataset that they have been trained on.
+**Ready-to-use datasets**: Skip the training and use our pre-generated synthetic datasets:
+- [IAM dataset](https://zenodo.org/records/10392946?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImI4NWY3Njc1LWYxYWItNDQzMi1hNjM3LTFjZDE2NmI0YjA2NSIsImRhdGEiOnt9LCJyYW5kb20iOiI2M2Q3MzFhZjBhNGY0ZGE5ZWViZjRmOWRlNTM5NzZjNyJ9.V5z0a9qU-_BeG7wFOKVl5riMp04aYb1KPvr_6ntS9OdhTcFlQN3MD5KZNffD_G-03Vm8IVREPFhy1rOyAGW4ug)
+- [George Washington dataset](https://zenodo.org/records/10392982?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjQ1NTI0MjA3LWZjNDAtNDYxMS1hYjk2LTEyZGEyY2RjNjRlOCIsImRhdGEiOnt9LCJyYW5kb20iOiJjZjljNWEzMmZkYmZjMGNmZDZkYTdhZTI3YWVmZmRjNiJ9.XcbZXLbRWM8OdGpr0WZfui_C9Mykg_0ltOkcXvxBHd4B4DDP1dtkck7bUNrccA77DoiReL0NgZOZ-rSb7XBqHg)
+- [IMGUR5k dataset](https://zenodo.org/records/10392963?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjVmNDhmYzRlLWE3OGEtNDJiMS1iY2QxLWExMDI2NmIyOGU1YyIsImRhdGEiOnt9LCJyYW5kb20iOiIwOTY3YzBiYzI0OTRkOTk4NGI5OGE3MjkxNzcxNDYyMiJ9.wiFBP18s05t7m7uaX7hwKiBdENXRbh-h3svaBtiSxUB0Sw-IB4vNL23VbEUkGXjB8AWTMODipz9Vk8bBCx23aQ)
+- [Out-of-vocabulary IAM dataset](https://zenodo.org/records/10393019?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjViZGJjYmJkLTVlOWMtNGM0MS05MjkwLTQxNjNiODE2NDgzMCIsImRhdGEiOnt9LCJyYW5kb20iOiI0MmM1ZGIxYzg5OTlkM2E4ZTBjZjY2MDVlNjM5YzZhYSJ9.08cC8e_lmkWvCsQsEY_QtjlnpriOCKIp6qQIvDnrjP6ncR8kwx-p3XrUxUhiNXJ99HskbR-x8mHoQoGRVKUTvg)
 
+## Training your own model
 
-## Our synthesized datasets
+Want to train on your own handwriting dataset? Here's the typical workflow:
 
-As part of our research, we have fully synthesized four datasets, and further refined these by keeping only the highest quality synthetic images. 
+1. **Prepare your data**: Process your handwriting images into the right format
+   ```bash
+   python3 preprocessing/process_dataset.py --dataset_path /path/to/your/images --save_dir /path/to/processed
+   ```
 
-You can download our best synthesized datasets: IAM dataset from [here](https://zenodo.org/records/10392946?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImI4NWY3Njc1LWYxYWItNDQzMi1hNjM3LTFjZDE2NmI0YjA2NSIsImRhdGEiOnt9LCJyYW5kb20iOiI2M2Q3MzFhZjBhNGY0ZGE5ZWViZjRmOWRlNTM5NzZjNyJ9.V5z0a9qU-_BeG7wFOKVl5riMp04aYb1KPvr_6ntS9OdhTcFlQN3MD5KZNffD_G-03Vm8IVREPFhy1rOyAGW4ug), George Washington dataset from [here](https://zenodo.org/records/10392982?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjQ1NTI0MjA3LWZjNDAtNDYxMS1hYjk2LTEyZGEyY2RjNjRlOCIsImRhdGEiOnt9LCJyYW5kb20iOiJjZjljNWEzMmZkYmZjMGNmZDZkYTdhZTI3YWVmZmRjNiJ9.XcbZXLbRWM8OdGpr0WZfui_C9Mykg_0ltOkcXvxBHd4B4DDP1dtkck7bUNrccA77DoiReL0NgZOZ-rSb7XBqHg), IMGUR5k dataset from [here](https://zenodo.org/records/10392963?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjVmNDhmYzRlLWE3OGEtNDJiMS1iY2QxLWExMDI2NmIyOGU1YyIsImRhdGEiOnt9LCJyYW5kb20iOiIwOTY3YzBiYzI0OTRkOTk4NGI5OGE3MjkxNzcxNDYyMiJ9.wiFBP18s05t7m7uaX7hwKiBdENXRbh-h3svaBtiSxUB0Sw-IB4vNL23VbEUkGXjB8AWTMODipz9Vk8bBCx23aQ) and our Out-Of-Vocabulary IAM dataset from [here](https://zenodo.org/records/10393019?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjViZGJjYmJkLTVlOWMtNGM0MS05MjkwLTQxNjNiODE2NDgzMCIsImRhdGEiOnt9LCJyYW5kb20iOiI0MmM1ZGIxYzg5OTlkM2E4ZTBjZjY2MDVlNjM5YzZhYSJ9.08cC8e_lmkWvCsQsEY_QtjlnpriOCKIp6qQIvDnrjP6ncR8kwx-p3XrUxUhiNXJ99HskbR-x8mHoQoGRVKUTvg)
+2. **Train the diffusion model**: This will take a while, but it's worth it
+   ```bash
+   python3 train_diffusion.py --dataset iam --iam_path /path/to/processed --epochs 1000
+   ```
 
-## Use the model for sampling or fine-tuning on datasets
-Download a dataset of your choice with the word-level images, then run `python3 datasets/process_dataset.py` to preprocess the data before `python3 model/train.py` to train the model on your dataset. Lastly, you may want to fully synthesize the dataset using `python3 sampling/full_sampling.py`.
+3. **Generate synthetic text**: Create new handwriting samples
+   ```bash
+   python3 inference.py --models_path /path/to/trained/models --single_image True
+   ```
+
+That's it! You'll have a trained model that can generate handwriting in the style of your training data.
+
+## How it works
+
+The system uses a diffusion model architecture specifically designed for handwritten text generation. It learns to capture both the content (what letters to write) and the style (how to write them) from training examples. During inference, you can control both aspects to generate exactly the kind of handwriting you need.
+
+Check out the [official paper](SyntheticHTR.pdf) for all the technical details.
 
 ## References
 
